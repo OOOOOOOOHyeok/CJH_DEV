@@ -1,12 +1,18 @@
 /**
  * Chapter 1: Scan Reveal
+ * Supports both mouse wheel and touch events for mobile
  */
 (function () {
     'use strict';
 
     let animDone = false;
     let scroll = 0;
-    const THRESHOLD = 500;  // 더 빠르게
+    const THRESHOLD = 500;
+
+    // Touch state
+    let touchStartY = 0;
+    let lastTouchY = 0;
+    let isTouching = false;
 
     function init() {
         const ch1 = document.getElementById('chapter1');
@@ -19,8 +25,15 @@
         });
         observer.observe(ch1, { attributes: true, attributeFilter: ['class'] });
 
+        // Mouse wheel events
         document.addEventListener('wheel', onWheel, { passive: false });
-        console.log('Chapter 1 ready');
+
+        // Touch events for mobile
+        ch1.addEventListener('touchstart', onTouchStart, { passive: false });
+        ch1.addEventListener('touchmove', onTouchMove, { passive: false });
+        ch1.addEventListener('touchend', onTouchEnd, { passive: true });
+
+        console.log('Chapter 1 ready (mobile supported)');
     }
 
     function startAnimation() {
@@ -42,15 +55,16 @@
         setTimeout(() => {
             ch1.classList.remove('phase-2');
             ch1.classList.add('phase-3');
-        }, 1200);  // 더 빠르게
+        }, 1200);
 
         // 스크롤 허용
         setTimeout(() => {
             animDone = true;
             console.log('Chapter 1: animation done, scroll enabled');
-        }, 1800);  // 더 빠르게
+        }, 1800);
     }
 
+    // Mouse wheel handler
     function onWheel(e) {
         const current = Nav.getCurrent();
         if (current !== 1) return;
@@ -63,6 +77,42 @@
         e.preventDefault();
         scroll += e.deltaY;
 
+        handleScroll();
+    }
+
+    // Touch handlers
+    function onTouchStart(e) {
+        if (Nav.getCurrent() !== 1) return;
+
+        isTouching = true;
+        touchStartY = e.touches[0].clientY;
+        lastTouchY = touchStartY;
+    }
+
+    function onTouchMove(e) {
+        if (Nav.getCurrent() !== 1 || !isTouching) return;
+
+        if (!animDone) {
+            e.preventDefault();
+            return;
+        }
+
+        e.preventDefault();
+
+        const currentY = e.touches[0].clientY;
+        const deltaY = (lastTouchY - currentY) * 2.5; // Amplify touch movement
+        lastTouchY = currentY;
+
+        scroll += deltaY;
+
+        handleScroll();
+    }
+
+    function onTouchEnd(e) {
+        isTouching = false;
+    }
+
+    function handleScroll() {
         console.log('Chapter 1 scroll:', scroll);
 
         // 위로 → Chapter 0

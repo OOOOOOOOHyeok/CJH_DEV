@@ -1,5 +1,6 @@
 /**
  * Chapter 0: Loading Screen
+ * Supports both mouse wheel and touch events for mobile
  */
 (function () {
     'use strict';
@@ -10,15 +11,21 @@
     let complete = false;
     let maxPan = 0;
 
-    const PHASE1 = 400;   // 더 빠르게
-    const PHASE2 = 1000;  // 더 빠르게
-    const TOTAL = 1400;   // 더 빠르게
+    // Touch state
+    let touchStartY = 0;
+    let lastTouchY = 0;
+    let isTouching = false;
+
+    const PHASE1 = 400;
+    const PHASE2 = 1000;
+    const TOTAL = 1400;
 
     function init() {
         const track = document.getElementById('textTrack');
         const particles = document.getElementById('particles');
+        const ch0 = document.getElementById('chapter0');
 
-        maxPan = Math.max(0, track.scrollWidth - window.innerWidth + 100);
+        calculateMaxPan();
 
         for (let i = 0; i < 15; i++) {
             const p = document.createElement('div');
@@ -28,18 +35,44 @@
             particles.appendChild(p);
         }
 
+        // Mouse wheel events
         document.addEventListener('wheel', onWheel, { passive: false });
+
+        // Touch events for mobile
+        ch0.addEventListener('touchstart', onTouchStart, { passive: false });
+        ch0.addEventListener('touchmove', onTouchMove, { passive: false });
+        ch0.addEventListener('touchend', onTouchEnd, { passive: true });
+
+        // Resize handling with debounce
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            maxPan = Math.max(0, track.scrollWidth - window.innerWidth + 100);
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                calculateMaxPan();
+                if (!complete) {
+                    update();
+                }
+            }, 100);
+        });
+
+        // Orientation change support
+        window.addEventListener('orientationchange', () => {
+            setTimeout(calculateMaxPan, 100);
         });
 
         animate();
-        console.log('Chapter 0 ready');
+        console.log('Chapter 0 ready (mobile supported)');
+    }
+
+    function calculateMaxPan() {
+        const track = document.getElementById('textTrack');
+        maxPan = Math.max(0, track.scrollWidth - window.innerWidth + (window.innerWidth * 0.1));
     }
 
     function reset() {
         scroll = 0;
         complete = false;
+        velocity = 0;
 
         document.getElementById('chapter0').classList.remove('active');
         document.getElementById('asterisk').classList.remove('active', 'tight', 'complete');
@@ -48,6 +81,7 @@
         document.getElementById('progressBar').style.width = '0%';
     }
 
+    // Mouse wheel handler
     function onWheel(e) {
         if (Nav.getCurrent() !== 0 || complete) return;
         e.preventDefault();
@@ -56,6 +90,33 @@
         velocity += e.deltaY * 0.12;
 
         update();
+    }
+
+    // Touch handlers
+    function onTouchStart(e) {
+        if (Nav.getCurrent() !== 0 || complete) return;
+
+        isTouching = true;
+        touchStartY = e.touches[0].clientY;
+        lastTouchY = touchStartY;
+    }
+
+    function onTouchMove(e) {
+        if (Nav.getCurrent() !== 0 || complete || !isTouching) return;
+        e.preventDefault();
+
+        const currentY = e.touches[0].clientY;
+        const deltaY = (lastTouchY - currentY) * 2; // Amplify touch movement
+        lastTouchY = currentY;
+
+        scroll = Math.max(0, scroll + deltaY);
+        velocity += deltaY * 0.15;
+
+        update();
+    }
+
+    function onTouchEnd(e) {
+        isTouching = false;
     }
 
     function update() {

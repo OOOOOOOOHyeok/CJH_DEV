@@ -92,3 +92,38 @@ Recognition.
 - Text hidden on the right side of the screen
 - On drag, text "rolls in" from the right, following the drag gesture
 - The asterisk symbol rolls alongside, guiding the reveal
+
+## RESPONSIVE & MOBILE REQUIREMENTS
+### Mobile Touch Support
+- All drag interactions must work with touch events (touchstart, touchmove, touchend)
+- Support both mouse and touch input simultaneously
+- Touch gestures should feel as fluid as mouse drag
+- Prevent default scroll behavior during drag interaction
+
+### Dynamic Viewport Handling
+- Layout must adapt dynamically when browser window is resized
+- Use viewport units (vw, vh, vmin, vmax) for responsive sizing
+- Text and symbol sizes must scale proportionally with viewport
+- Maintain aspect ratios and visual balance at all breakpoints
+
+### Breakpoint Guidelines
+- Desktop: 1024px and above
+- Tablet: 768px - 1023px
+- Mobile: below 768px
+
+### Mobile-Specific Adaptations
+- Text size should remain readable on small screens (minimum 16px equivalent)
+- Touch target areas must be at least 44x44px for accessibility
+- Symbol size should scale appropriately for mobile viewports
+- Consider reduced motion preferences for mobile users
+
+### Orientation Support
+- Support both portrait and landscape orientations
+- Recalculate layouts on orientation change
+- Maintain interaction functionality across orientation switches
+
+### Performance Considerations
+- Optimize animations for mobile GPU rendering
+- Use CSS transform and opacity for smooth animations
+- Minimize repaints and reflows during interactions
+- Test on low-end mobile devices for performance
