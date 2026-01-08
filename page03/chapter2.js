@@ -14,15 +14,13 @@
     let isTouching = false;
 
     function init() {
-        const ch2 = document.getElementById('chapter2');
-
         // Mouse wheel events
         document.addEventListener('wheel', onWheel, { passive: false });
 
-        // Touch events for mobile
-        ch2.addEventListener('touchstart', onTouchStart, { passive: false });
-        ch2.addEventListener('touchmove', onTouchMove, { passive: false });
-        ch2.addEventListener('touchend', onTouchEnd, { passive: true });
+        // Touch events - attach to document for reliability
+        document.addEventListener('touchstart', onTouchStart, { passive: false });
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onTouchEnd, { passive: true });
 
         console.log('Chapter 2 ready (mobile supported)');
     }
@@ -49,10 +47,12 @@
     // Touch handlers
     function onTouchStart(e) {
         if (Nav.getCurrent() !== 2) return;
+        e.preventDefault();
 
         isTouching = true;
         touchStartY = e.touches[0].clientY;
         lastTouchY = touchStartY;
+        console.log('Chapter 2: touch start at', touchStartY);
     }
 
     function onTouchMove(e) {
@@ -60,12 +60,12 @@
         e.preventDefault();
 
         const currentY = e.touches[0].clientY;
-        const deltaY = lastTouchY - currentY; // Negative = swipe up (go back)
+        const deltaY = currentY - lastTouchY; // Positive = swiping down = scroll up
         lastTouchY = currentY;
 
-        if (deltaY < 0) { // Swiping down (scrolling up content)
-            scroll += Math.abs(deltaY) * 2;
-            console.log('Chapter 2 swipe down (scroll up):', scroll);
+        if (deltaY > 0) { // Swiping down (scroll up content = go back)
+            scroll += deltaY * 3;
+            console.log('Chapter 2 swipe down (go back):', scroll);
 
             if (scroll >= THRESHOLD) {
                 console.log('Going to Chapter 1');
@@ -78,7 +78,9 @@
     }
 
     function onTouchEnd(e) {
+        if (Nav.getCurrent() !== 2) return;
         isTouching = false;
+        console.log('Chapter 2: touch end');
     }
 
     if (document.readyState === 'loading') {

@@ -28,10 +28,10 @@
         // Mouse wheel events
         document.addEventListener('wheel', onWheel, { passive: false });
 
-        // Touch events for mobile
-        ch1.addEventListener('touchstart', onTouchStart, { passive: false });
-        ch1.addEventListener('touchmove', onTouchMove, { passive: false });
-        ch1.addEventListener('touchend', onTouchEnd, { passive: true });
+        // Touch events - attach to document for reliability
+        document.addEventListener('touchstart', onTouchStart, { passive: false });
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onTouchEnd, { passive: true });
 
         console.log('Chapter 1 ready (mobile supported)');
     }
@@ -87,6 +87,11 @@
         isTouching = true;
         touchStartY = e.touches[0].clientY;
         lastTouchY = touchStartY;
+
+        if (animDone) {
+            e.preventDefault();
+        }
+        console.log('Chapter 1: touch start at', touchStartY);
     }
 
     function onTouchMove(e) {
@@ -100,16 +105,19 @@
         e.preventDefault();
 
         const currentY = e.touches[0].clientY;
-        const deltaY = (lastTouchY - currentY) * 2.5; // Amplify touch movement
+        const deltaY = (lastTouchY - currentY) * 3; // Amplify touch movement
         lastTouchY = currentY;
 
         scroll += deltaY;
+        console.log('Chapter 1: touch move, scroll:', scroll);
 
         handleScroll();
     }
 
     function onTouchEnd(e) {
+        if (Nav.getCurrent() !== 1) return;
         isTouching = false;
+        console.log('Chapter 1: touch end');
     }
 
     function handleScroll() {

@@ -23,7 +23,6 @@
     function init() {
         const track = document.getElementById('textTrack');
         const particles = document.getElementById('particles');
-        const ch0 = document.getElementById('chapter0');
 
         calculateMaxPan();
 
@@ -38,10 +37,10 @@
         // Mouse wheel events
         document.addEventListener('wheel', onWheel, { passive: false });
 
-        // Touch events for mobile
-        ch0.addEventListener('touchstart', onTouchStart, { passive: false });
-        ch0.addEventListener('touchmove', onTouchMove, { passive: false });
-        ch0.addEventListener('touchend', onTouchEnd, { passive: true });
+        // Touch events - attach to document for reliability
+        document.addEventListener('touchstart', onTouchStart, { passive: false });
+        document.addEventListener('touchmove', onTouchMove, { passive: false });
+        document.addEventListener('touchend', onTouchEnd, { passive: true });
 
         // Resize handling with debounce
         let resizeTimeout;
@@ -95,10 +94,12 @@
     // Touch handlers
     function onTouchStart(e) {
         if (Nav.getCurrent() !== 0 || complete) return;
+        e.preventDefault();
 
         isTouching = true;
         touchStartY = e.touches[0].clientY;
         lastTouchY = touchStartY;
+        console.log('Chapter 0: touch start at', touchStartY);
     }
 
     function onTouchMove(e) {
@@ -106,17 +107,20 @@
         e.preventDefault();
 
         const currentY = e.touches[0].clientY;
-        const deltaY = (lastTouchY - currentY) * 2; // Amplify touch movement
+        const deltaY = (lastTouchY - currentY) * 3; // Amplify touch movement more
         lastTouchY = currentY;
 
         scroll = Math.max(0, scroll + deltaY);
         velocity += deltaY * 0.15;
 
+        console.log('Chapter 0: touch move, scroll:', scroll);
         update();
     }
 
     function onTouchEnd(e) {
+        if (Nav.getCurrent() !== 0) return;
         isTouching = false;
+        console.log('Chapter 0: touch end, final scroll:', scroll);
     }
 
     function update() {
