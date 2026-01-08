@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We exist everywhere</title>
+    <meta name="description" content="An interactive experience revealing hidden meaning through engagement">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Chapter 0: Loading Screen -->
+    <main id="chapter0" class="chapter chapter-0">
+        <div class="particles" id="particles"></div>
+        <div class="progress-bar" id="progressBar"></div>
+
+        <div class="scroll-hint">
+            <span class="hint-text">scroll to reveal</span>
+            <div class="scroll-indicator">
+                <div class="scroll-arrow"></div>
+            </div>
+        </div>
+
+        <div class="text-viewport">
+            <div class="text-track" id="textTrack">
+                <div class="text-row">
+                    <span class="word word-we">WE</span>
+                    <span class="word word-exist">EXIST</span>
+                    <span class="asterisk-symbol" id="asterisk">✳</span>
+                    <span class="word word-everywhere">EVERYWHERE</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chapter 1: Scan Reveal -->
+    <main id="chapter1" class="chapter chapter-1">
+        <div class="scan-line" id="scanLine"></div>
+
+        <div class="chapter1-content" id="chapter1Content">
+            <div class="iw-text">INVISIBLE WORKS</div>
+        </div>
+
+        <div class="scroll-hint chapter1-hint" id="chapter1Hint">
+            <span class="hint-text">scroll to continue</span>
+            <div class="scroll-indicator">
+                <div class="scroll-arrow"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chapter 2: Placeholder -->
+    <main id="chapter2" class="chapter chapter-2">
+        <div class="chapter2-content">
+            <h1>Chapter 2</h1>
+            <p>Coming soon...</p>
+        </div>
+    </main>
+
+    <!-- Scripts in order: navigation first, then chapters -->
+    <script src="navigation.js"></script>
+    <script src="chapter0.js"></script>
+    <script src="chapter1.js"></script>
+    <script src="chapter2.js"></script>
+</body>
+
+</html>

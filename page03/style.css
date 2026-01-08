@@ -1,0 +1,458 @@
+/* ===== CSS Reset & Base ===== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    background-color: #0a0a0f;
+    color: #f0f0f0;
+    font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* ===== Common Chapter Styles ===== */
+.chapter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* ===== Chapter 0 - Loading Screen ===== */
+.chapter-0 {
+    background: radial-gradient(ellipse at 30% 50%, rgba(30, 40, 80, 0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 50%, rgba(60, 30, 80, 0.3) 0%, transparent 50%),
+        linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #0a0a0f 100%);
+    z-index: 100;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.chapter-0::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at var(--glow-x, 50%) var(--glow-y, 50%),
+            rgba(100, 120, 255, 0.08) 0%,
+            transparent 40%);
+    pointer-events: none;
+    transition: background 0.3s ease;
+}
+
+.chapter-0.exit {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+/* Scroll hint */
+.scroll-hint {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    opacity: 0.6;
+    transition: opacity 0.5s ease;
+    z-index: 10;
+}
+
+.scroll-hint .hint-text {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(240, 240, 240, 0.6);
+}
+
+.scroll-indicator {
+    width: 20px;
+    height: 32px;
+    border: 1px solid rgba(240, 240, 240, 0.3);
+    border-radius: 10px;
+    position: relative;
+}
+
+.scroll-arrow {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: rgba(240, 240, 240, 0.6);
+    border-radius: 2px;
+    animation: scrollBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+
+    0%,
+    100% {
+        top: 6px;
+        opacity: 1;
+    }
+
+    50% {
+        top: 16px;
+        opacity: 0.3;
+    }
+}
+
+.chapter-0.active .scroll-hint {
+    opacity: 0;
+}
+
+/* Text viewport */
+.text-viewport {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.text-track {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    will-change: transform;
+    padding-left: 8vw;
+}
+
+.text-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.word {
+    font-size: clamp(3rem, 10vw, 12rem);
+    font-weight: 200;
+    letter-spacing: -0.01em;
+    line-height: 1;
+}
+
+.word-we {
+    color: #f0f0f0;
+    margin-right: 0.25em;
+    text-shadow: 0 0 40px rgba(150, 170, 255, 0.3);
+}
+
+.word-exist {
+    color: #f0f0f0;
+    text-shadow: 0 0 40px rgba(150, 170, 255, 0.3);
+}
+
+.word-everywhere {
+    color: rgba(240, 240, 240, 0.08);
+    margin-left: 0.15em;
+    transition: color 0.8s ease-out, text-shadow 0.8s ease-out;
+}
+
+.word-everywhere.revealed {
+    color: #f0f0f0;
+    text-shadow: 0 0 60px rgba(180, 150, 255, 0.4);
+}
+
+.asterisk-symbol {
+    font-size: clamp(2rem, 6vw, 8rem);
+    color: rgba(180, 160, 255, 0.5);
+    margin: 0 0.8em;
+    display: inline-block;
+    transition: color 0.3s ease, margin 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+        filter 0.3s ease, text-shadow 0.3s ease;
+    transform-origin: center center;
+    will-change: transform, margin;
+    animation: asteriskPulse 3s ease-in-out infinite;
+}
+
+@keyframes asteriskPulse {
+
+    0%,
+    100% {
+        text-shadow: 0 0 20px rgba(180, 160, 255, 0.3);
+    }
+
+    50% {
+        text-shadow: 0 0 40px rgba(180, 160, 255, 0.5);
+    }
+}
+
+.asterisk-symbol.active {
+    color: rgba(200, 180, 255, 0.9);
+    animation: none;
+    text-shadow: 0 0 30px rgba(180, 160, 255, 0.6);
+}
+
+.asterisk-symbol.tight {
+    margin: 0 0.3em;
+}
+
+.asterisk-symbol.complete {
+    color: #f0f0f0;
+    margin: 0 0.1em;
+    text-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+}
+
+/* Particles */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: rgba(150, 170, 255, 0.3);
+    border-radius: 50%;
+    animation: floatUp 8s linear infinite;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+    }
+}
+
+.progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+            rgba(100, 120, 255, 0.8),
+            rgba(180, 150, 255, 0.8),
+            rgba(255, 150, 180, 0.8));
+    width: 0%;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px rgba(150, 140, 255, 0.5);
+}
+
+/* ===== Chapter 1 - Scan Reveal ===== */
+.chapter-1 {
+    background: #0a0a0f;
+    z-index: 50;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.chapter-1.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Horizontal scan line */
+.scan-line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 25vh;
+    background: #f0f0f0;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: top 1s cubic-bezier(0.16, 1, 0.3, 1),
+        height 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s,
+        opacity 0.3s ease 1s;
+}
+
+/* Phase 1: Bar at top */
+.chapter-1.phase-1 .scan-line {
+    top: 0;
+    transform: translateY(0);
+}
+
+/* Phase 2: Bar sweeps down, revealing text */
+.chapter-1.phase-2 .scan-line {
+    top: 100%;
+    transform: translateY(-100%);
+}
+
+/* Phase 3: Bar shrinks and disappears */
+.chapter-1.phase-3 .scan-line {
+    top: 100%;
+    transform: translateY(0);
+    height: 0;
+    opacity: 0;
+}
+
+/* ===== Reverse Animation (from Chapter 2) ===== */
+/* Reverse Phase 1: Bar appears at bottom */
+.chapter-1.reverse-1 .scan-line {
+    top: 100%;
+    transform: translateY(-100%);
+    height: 25vh;
+    opacity: 1;
+    transition: none;
+}
+
+.chapter-1.reverse-1 .chapter1-content {
+    clip-path: inset(0 0 100% 0);
+}
+
+/* Reverse Phase 2: Bar sweeps up, text reveals from bottom */
+.chapter-1.reverse-2 .scan-line {
+    top: 0;
+    transform: translateY(0);
+    height: 25vh;
+    opacity: 1;
+    transition: top 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chapter-1.reverse-2 .chapter1-content {
+    clip-path: inset(0 0 0 0);
+    transition: clip-path 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reverse Phase 3: Bar exits at top */
+.chapter-1.reverse-3 .scan-line {
+    top: -25vh;
+    transform: translateY(0);
+    height: 25vh;
+    opacity: 0;
+    transition: top 0.4s ease-out, opacity 0.3s ease 0.2s;
+}
+
+.chapter-1.reverse-3 .chapter1-content {
+    clip-path: inset(0 0 0 0);
+}
+
+/* Text - masked by clip-path, revealed as bar passes */
+.chapter1-content {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.chapter-1.phase-2 .chapter1-content,
+.chapter-1.phase-3 .chapter1-content {
+    clip-path: inset(0 0 0 0);
+}
+
+/* INVISIBLE WORKS text */
+.iw-text {
+    font-size: clamp(3rem, 12vw, 15rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #f0f0f0;
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+/* Scroll hint */
+.chapter1-hint {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.chapter-1.phase-3 .chapter1-hint {
+    opacity: 0.6;
+    transition-delay: 0.5s;
+}
+
+.chapter-1.scrolling .chapter1-hint {
+    opacity: 0;
+}
+
+/* ===== Chapter 2 - Placeholder ===== */
+.chapter-2 {
+    background: linear-gradient(180deg, #0a0a0f 0%, #12121a 100%);
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.chapter-2.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.chapter2-content {
+    text-align: center;
+}
+
+.chapter2-content h1 {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 200;
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 30px rgba(150, 170, 255, 0.3);
+}
+
+.chapter2-content p {
+    font-size: 1rem;
+    opacity: 0.5;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .text-track {
+        padding-left: 3vw;
+    }
+
+    .iw-text {
+        font-size: clamp(2rem, 10vw, 8rem);
+        letter-spacing: -0.01em;
+    }
+}
+
+/* ===== Accessibility ===== */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
