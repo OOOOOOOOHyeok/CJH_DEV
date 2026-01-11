@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Products | 음식 · 술 · 프로틴</title>
+  <meta name="description" content="최고급 음식, 프리미엄 술, 고품질 프로틴을 한눈에 만나보세요.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- 물결 효과 배경 Canvas -->
+  <canvas id="ripple-canvas"></canvas>
+
+  <!-- 메인 컨테이너 -->
+  <main class="product-container">
+
+    <!-- 음식 섹션 -->
+    <section class="product-section food-section" data-category="food">
+      <div class="section-content">
+        <h2 class="section-title">FOOD</h2>
+        <p class="section-subtitle">음식</p>
+
+        <div class="glass-box">
+          <div class="product-carousel">
+            <img src="images/food_front.png" alt="Premium Food Front" class="carousel-img">
+            <img src="images/food_side.png" alt="Premium Food Side" class="carousel-img">
+            <img src="images/food_back.png" alt="Premium Food Back" class="carousel-img">
+            <img src="images/food_side.png" alt="Premium Food Side" class="carousel-img" style="transform: scaleX(-1);">
+          </div>
+          <div class="product-shadow"></div>
+        </div>
+
+        <p class="section-desc">신선한 재료로 만든<br>프리미엄 건강식</p>
+      </div>
+      <div class="section-overlay"></div>
+    </section>
+
+    <!-- 술 섹션 -->
+    <section class="product-section drink-section" data-category="drink">
+      <div class="section-content">
+        <h2 class="section-title">DRINK</h2>
+        <p class="section-subtitle">술</p>
+
+        <div class="glass-box">
+          <div class="product-carousel">
+            <img src="images/drink_front.png" alt="Premium Drink Front" class="carousel-img">
+            <img src="images/drink_side.png" alt="Premium Drink Side" class="carousel-img">
+            <img src="images/drink_back.png" alt="Premium Drink Back" class="carousel-img">
+            <img src="images/drink_side.png" alt="Premium Drink Side" class="carousel-img"
+              style="transform: scaleX(-1);">
+          </div>
+          <div class="product-shadow"></div>
+        </div>
+
+        <p class="section-desc">엄선된 빈티지 와인과<br>프리미엄 양주 컬렉션</p>
+      </div>
+      <div class="section-overlay"></div>
+    </section>
+
+    <!-- 프로틴 섹션 -->
+    <section class="product-section protein-section" data-category="protein">
+      <div class="section-content">
+        <h2 class="section-title">PROTEIN</h2>
+        <p class="section-subtitle">프로틴</p>
+
+        <div class="glass-box">
+          <div class="product-carousel">
+            <img src="images/protein_front.png" alt="Premium Protein Front" class="carousel-img">
+            <img src="images/protein_side.png" alt="Premium Protein Side" class="carousel-img">
+            <img src="images/protein_back.png" alt="Premium Protein Back" class="carousel-img">
+            <img src="images/protein_side.png" alt="Premium Protein Side" class="carousel-img"
+              style="transform: scaleX(-1);">
+          </div>
+          <div class="product-shadow"></div>
+        </div>
+
+        <p class="section-desc">순도 높은 고품질<br>프로틴 파우더</p>
+      </div>
+      <div class="section-overlay"></div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

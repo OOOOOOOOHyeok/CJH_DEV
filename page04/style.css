@@ -1,0 +1,402 @@
+/* ===================================
+   CSS Variables & Global Styles
+   =================================== */
+:root {
+  --color-bg: #0a0a0f;
+  --color-food: #ff6b35;
+  --color-food-glow: rgba(255, 107, 53, 0.3);
+  --color-drink: #8b5cf6;
+  --color-drink-glow: rgba(139, 92, 246, 0.3);
+  --color-protein: #10b981;
+  --color-protein-glow: rgba(16, 185, 129, 0.3);
+  --color-text: #ffffff;
+  --color-text-muted: rgba(255, 255, 255, 0.6);
+  --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --font-primary: 'Noto Sans KR', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* ===================================
+   Ripple Canvas Background
+   =================================== */
+#ripple-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===================================
+   Main Container - 3 Split Layout
+   =================================== */
+.product-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================================
+   Product Section Base Styles
+   =================================== */
+.product-section {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: flex 0.6s var(--transition-smooth);
+  overflow: hidden;
+}
+
+.section-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 0.4s var(--transition-smooth);
+  pointer-events: none;
+}
+
+/* Section-specific backgrounds */
+.food-section {
+  background: linear-gradient(135deg, #1a0f0a 0%, #2d1810 50%, #1a0f0a 100%);
+}
+
+.food-section .section-overlay {
+  background: radial-gradient(circle at center, var(--color-food-glow) 0%, transparent 70%);
+}
+
+.drink-section {
+  background: linear-gradient(135deg, #0f0a1a 0%, #1a1028 50%, #0f0a1a 100%);
+}
+
+.drink-section .section-overlay {
+  background: radial-gradient(circle at center, var(--color-drink-glow) 0%, transparent 70%);
+}
+
+.protein-section {
+  background: linear-gradient(135deg, #0a1a12 0%, #102820 50%, #0a1a12 100%);
+}
+
+.protein-section .section-overlay {
+  background: radial-gradient(circle at center, var(--color-protein-glow) 0%, transparent 70%);
+}
+
+/* Divider lines */
+.product-section::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: linear-gradient(to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.1) 20%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.1) 80%,
+      transparent);
+}
+
+.product-section:last-child::after {
+  display: none;
+}
+
+/* ===================================
+   Hover Effects
+   =================================== */
+.product-section:hover {
+  flex: 1.3;
+}
+
+.product-section:hover .section-overlay {
+  opacity: 1;
+}
+
+.product-section:hover .glass-box {
+  transform: scale(1.08);
+}
+
+.product-section:hover .product-carousel {
+  animation-duration: 3s;
+}
+
+.product-section:hover .section-title {
+  letter-spacing: 0.5em;
+  text-shadow: 0 0 30px currentColor;
+}
+
+.product-section:hover .section-desc {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===================================
+   Section Content
+   =================================== */
+.section-content {
+  text-align: center;
+  z-index: 2;
+  padding: 2rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  margin-bottom: 0.5rem;
+  transition: all 0.4s var(--transition-smooth);
+}
+
+.food-section .section-title {
+  color: var(--color-food);
+}
+
+.drink-section .section-title {
+  color: var(--color-drink);
+}
+
+.protein-section .section-title {
+  color: var(--color-protein);
+}
+
+.section-subtitle {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 300;
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+}
+
+.section-desc {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  margin-top: 2rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.4s var(--transition-smooth) 0.1s;
+}
+
+/* ===================================
+   Glass Box (Static Container)
+   =================================== */
+.glass-box {
+  width: clamp(220px, 28vw, 360px);
+  height: clamp(220px, 28vw, 360px);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s var(--transition-smooth);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    inset 0 0 30px rgba(255, 255, 255, 0.02);
+}
+
+/* Section-specific glow */
+.food-section .glass-box {
+  border-color: rgba(255, 107, 53, 0.2);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 40px var(--color-food-glow),
+    inset 0 0 30px rgba(255, 107, 53, 0.05);
+}
+
+.drink-section .glass-box {
+  border-color: rgba(139, 92, 246, 0.2);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 40px var(--color-drink-glow),
+    inset 0 0 30px rgba(139, 92, 246, 0.05);
+}
+
+.protein-section .glass-box {
+  border-color: rgba(16, 185, 129, 0.2);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 40px var(--color-protein-glow),
+    inset 0 0 30px rgba(16, 185, 129, 0.05);
+}
+
+/* ===================================
+   Product Carousel (3D Rotation Simulation)
+   =================================== */
+.product-carousel {
+  width: 85%;
+  height: 85%;
+  position: relative;
+  animation: rotate360 6s steps(1) infinite;
+}
+
+.carousel-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.5));
+  animation: fadeSequence 6s steps(1) infinite;
+}
+
+/* Stagger each image */
+.carousel-img:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.carousel-img:nth-child(2) {
+  animation-delay: 1.5s;
+}
+
+.carousel-img:nth-child(3) {
+  animation-delay: 3s;
+}
+
+.carousel-img:nth-child(4) {
+  animation-delay: 4.5s;
+}
+
+@keyframes fadeSequence {
+
+  0%,
+  25% {
+    opacity: 1;
+  }
+
+  25.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Floating animation for the whole carousel */
+@keyframes rotate360 {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Shadow pulse */
+.product-shadow {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 15px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.4) 0%, transparent 70%);
+  animation: shadowPulse 3s ease-in-out infinite;
+}
+
+@keyframes shadowPulse {
+
+  0%,
+  100% {
+    transform: translateX(-50%) scaleX(1);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translateX(-50%) scaleX(0.85);
+    opacity: 0.35;
+  }
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+@media (max-width: 768px) {
+  .product-container {
+    flex-direction: column;
+  }
+
+  .product-section::after {
+    right: 10%;
+    top: auto;
+    bottom: 0;
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(to right,
+        transparent,
+        rgba(255, 255, 255, 0.1) 20%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 80%,
+        transparent);
+  }
+
+  .product-section:hover {
+    flex: 1.5;
+  }
+
+  .glass-box {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* ===================================
+   Glass Shine Effect
+   =================================== */
+.glass-box::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.03) 50%,
+      transparent 60%);
+  animation: shine 6s linear infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) translateY(-100%);
+  }
+
+  100% {
+    transform: translateX(100%) translateY(100%);
+  }
+}
