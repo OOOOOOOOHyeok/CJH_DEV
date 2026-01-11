@@ -2,15 +2,17 @@
    CSS Variables & Global Styles
    =================================== */
 :root {
-  --color-bg: #0a0a0f;
-  --color-food: #ff6b35;
-  --color-food-glow: rgba(255, 107, 53, 0.3);
-  --color-drink: #8b5cf6;
-  --color-drink-glow: rgba(139, 92, 246, 0.3);
-  --color-protein: #10b981;
-  --color-protein-glow: rgba(16, 185, 129, 0.3);
-  --color-text: #ffffff;
-  --color-text-muted: rgba(255, 255, 255, 0.6);
+  --color-bg: #FFFEF5;
+  --color-ivory: #FFFEF5;
+  --color-ivory-dark: #F5F0E1;
+  --color-food: #d45a2a;
+  --color-food-glow: rgba(212, 90, 42, 0.15);
+  --color-drink: #7c4ddb;
+  --color-drink-glow: rgba(124, 77, 219, 0.15);
+  --color-protein: #0d9668;
+  --color-protein-glow: rgba(13, 150, 104, 0.15);
+  --color-text: #2c2c2c;
+  --color-text-muted: rgba(44, 44, 44, 0.6);
   --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --font-primary: 'Noto Sans KR', sans-serif;
 }
@@ -82,9 +84,9 @@ body {
   pointer-events: none;
 }
 
-/* Section-specific backgrounds */
+/* Section-specific backgrounds - Ivory theme */
 .food-section {
-  background: linear-gradient(135deg, #1a0f0a 0%, #2d1810 50%, #1a0f0a 100%);
+  background: var(--color-ivory);
 }
 
 .food-section .section-overlay {
@@ -92,7 +94,7 @@ body {
 }
 
 .drink-section {
-  background: linear-gradient(135deg, #0f0a1a 0%, #1a1028 50%, #0f0a1a 100%);
+  background: var(--color-ivory);
 }
 
 .drink-section .section-overlay {
@@ -100,7 +102,7 @@ body {
 }
 
 .protein-section {
-  background: linear-gradient(135deg, #0a1a12 0%, #102820 50%, #0a1a12 100%);
+  background: var(--color-ivory);
 }
 
 .protein-section .section-overlay {
@@ -117,9 +119,9 @@ body {
   width: 1px;
   background: linear-gradient(to bottom,
       transparent,
-      rgba(255, 255, 255, 0.1) 20%,
-      rgba(255, 255, 255, 0.2) 50%,
-      rgba(255, 255, 255, 0.1) 80%,
+      rgba(0, 0, 0, 0.05) 20%,
+      rgba(0, 0, 0, 0.1) 50%,
+      rgba(0, 0, 0, 0.05) 80%,
       transparent);
 }
 
@@ -208,8 +210,8 @@ body {
 .glass-box {
   width: clamp(220px, 28vw, 360px);
   height: clamp(220px, 28vw, 360px);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 24px;
   backdrop-filter: blur(20px);
   display: flex;
@@ -220,33 +222,33 @@ body {
   overflow: hidden;
   transition: all 0.4s var(--transition-smooth);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.3),
-    inset 0 0 30px rgba(255, 255, 255, 0.02);
+    0 10px 40px rgba(0, 0, 0, 0.08),
+    inset 0 0 30px rgba(255, 255, 255, 0.5);
 }
 
-/* Section-specific glow */
+/* Section-specific glow - Light theme */
 .food-section .glass-box {
-  border-color: rgba(255, 107, 53, 0.2);
+  border-color: rgba(212, 90, 42, 0.2);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.3),
-    0 0 40px var(--color-food-glow),
-    inset 0 0 30px rgba(255, 107, 53, 0.05);
+    0 10px 40px rgba(0, 0, 0, 0.08),
+    0 0 30px var(--color-food-glow),
+    inset 0 0 30px rgba(255, 255, 255, 0.5);
 }
 
 .drink-section .glass-box {
-  border-color: rgba(139, 92, 246, 0.2);
+  border-color: rgba(124, 77, 219, 0.2);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.3),
-    0 0 40px var(--color-drink-glow),
-    inset 0 0 30px rgba(139, 92, 246, 0.05);
+    0 10px 40px rgba(0, 0, 0, 0.08),
+    0 0 30px var(--color-drink-glow),
+    inset 0 0 30px rgba(255, 255, 255, 0.5);
 }
 
 .protein-section .glass-box {
-  border-color: rgba(16, 185, 129, 0.2);
+  border-color: rgba(13, 150, 104, 0.2);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.3),
-    0 0 40px var(--color-protein-glow),
-    inset 0 0 30px rgba(16, 185, 129, 0.05);
+    0 10px 40px rgba(0, 0, 0, 0.08),
+    0 0 30px var(--color-protein-glow),
+    inset 0 0 30px rgba(255, 255, 255, 0.5);
 }
 
 /* ===================================
