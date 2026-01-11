@@ -1,0 +1,452 @@
+/* ================================
+   Design System - Based on set.md
+   ================================ */
+
+/* Color Palette */
+:root {
+  --color-primary-black: #141516;
+  --color-dark-gray: #252A30;
+  --color-light-gray: #8A8A8A;
+  --color-white: #FFFFFF;
+  --color-muted-blue: #4F6F86;
+
+  /* Typography Scale (clamp-based) */
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+  --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --font-size-lg: clamp(1.25rem, 1rem + 1.25vw, 1.75rem);
+  --font-size-xl: clamp(1.5rem, 1rem + 2.5vw, 2.5rem);
+  --font-size-2xl: clamp(2rem, 1.5rem + 3vw, 4rem);
+  --font-size-3xl: clamp(2.5rem, 2rem + 4vw, 5rem);
+
+  /* Spacing Scale */
+  --space-xs: clamp(0.5rem, 0.4rem + 0.5vw, 0.75rem);
+  --space-sm: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  --space-md: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+  --space-lg: clamp(2rem, 1.5rem + 2.5vw, 4rem);
+  --space-xl: clamp(3rem, 2rem + 5vw, 6rem);
+  --space-2xl: clamp(4rem, 3rem + 5vw, 8rem);
+
+  /* Transitions */
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.6s ease;
+}
+
+/* ================================
+   Reset & Base
+   ================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--color-white);
+  background-color: var(--color-primary-black);
+}
+
+/* ================================
+   Section Base Styles
+   ================================ */
+.section {
+  min-height: 100vh;
+  min-height: 100dvh;
+  /* Dynamic viewport height for mobile */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg) var(--space-md);
+  position: relative;
+}
+
+.section__content {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.section__title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+  color: var(--color-white);
+  letter-spacing: -0.02em;
+}
+
+.section__text {
+  font-size: var(--font-size-lg);
+  color: var(--color-light-gray);
+  line-height: 1.7;
+}
+
+/* ================================
+   Section 1: Prelude - Multi-phase Scroll Animation
+   ================================ */
+
+/* Wrapper creates scroll height for sticky */
+.prelude-wrapper {
+  height: 1300vh;
+  /* 13x viewport for very slow fill */
+  position: relative;
+}
+
+.section--prelude {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Main content container */
+.prelude__content {
+  position: absolute;
+  left: 3vw;
+  display: flex;
+  align-items: center;
+  will-change: transform;
+}
+
+.prelude__text-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5vw;
+  white-space: nowrap;
+}
+
+.prelude__word {
+  font-size: 18vw;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.prelude__word--design {
+  color: var(--color-primary-black);
+}
+
+.prelude__word--that,
+.prelude__word--matters {
+  background: linear-gradient(to right, var(--color-primary-black) 0%, var(--color-primary-black) 0%, var(--color-light-gray) 0%, var(--color-light-gray) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: none;
+}
+
+/* JavaScript will update the gradient dynamically */
+
+/* Track (pill shape) */
+.prelude__track {
+  position: relative;
+  top: 25px;
+  width: 28vw;
+  height: 10vw;
+  background-color: #C5C5C5;
+  border-radius: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0;
+  overflow: visible;
+  flex-shrink: 0;
+  will-change: width, background-color;
+  transition: background-color 0.3s ease;
+}
+
+.prelude__track-fill {
+  display: none;
+}
+
+.prelude__star {
+  position: absolute;
+  right: 0;
+  width: 10vw;
+  height: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8vw;
+  font-weight: bold;
+  color: var(--color-primary-black);
+  z-index: 2;
+  will-change: transform;
+}
+
+.prelude__track.filled {
+  background-color: var(--color-dark-gray);
+}
+
+.prelude__track.filled .prelude__star {
+  color: var(--color-white);
+}
+
+/* Overlay for dark transition */
+.prelude__overlay {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-primary-black);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+  z-index: 10;
+}
+
+/* White shrinking box */
+.prelude__white-box {
+  position: absolute;
+  background-color: var(--color-white);
+  pointer-events: none;
+  will-change: transform, width, height;
+  z-index: 15;
+  /* Starts full screen, JS will shrink it */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+}
+
+/* Invisible works reveal text */
+.prelude__reveal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+  z-index: 12;
+}
+
+.prelude__reveal-text {
+  font-size: clamp(3rem, 15vw, 12rem);
+  font-weight: 800;
+  color: var(--color-white);
+  letter-spacing: -0.03em;
+  text-align: center;
+  line-height: 1;
+}
+
+/* Scroll hint */
+.prelude__hint {
+  position: absolute;
+  bottom: 5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--font-size-sm);
+  color: var(--color-light-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.prelude__hint.hidden {
+  opacity: 0;
+}
+
+/* ================================
+   Section 2: Hero
+   ================================ */
+.section--hero {
+  background-color: var(--color-primary-black);
+}
+
+.hero__title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: var(--space-sm);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.hero__subtitle {
+  font-size: var(--font-size-lg);
+  color: var(--color-muted-blue);
+  font-weight: 400;
+}
+
+/* ================================
+   Section 3: Identity
+   ================================ */
+.section--identity {
+  background-color: var(--color-dark-gray);
+}
+
+/* ================================
+   Section 4: Problem
+   ================================ */
+.section--problem {
+  background-color: var(--color-primary-black);
+}
+
+/* ================================
+   Section 5: What Changed
+   ================================ */
+.section--what-changed {
+  background-color: var(--color-dark-gray);
+}
+
+/* ================================
+   Section 6: How We Work
+   ================================ */
+.section--how-we-work {
+  background-color: var(--color-primary-black);
+}
+
+.work-list {
+  list-style: none;
+  text-align: left;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.work-list__item {
+  font-size: var(--font-size-base);
+  color: var(--color-light-gray);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-dark-gray);
+  position: relative;
+  padding-left: var(--space-md);
+}
+
+.work-list__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-muted-blue);
+  border-radius: 50%;
+}
+
+.work-list__item:last-child {
+  border-bottom: none;
+}
+
+/* ================================
+   Section 7: Predictable Outcome
+   ================================ */
+.section--predictable-outcome {
+  background-color: var(--color-dark-gray);
+}
+
+/* ================================
+   Section 8: No Reason Not To Try
+   ================================ */
+.section--no-reason {
+  background-color: var(--color-primary-black);
+}
+
+.section--no-reason .section__text {
+  font-size: var(--font-size-2xl);
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+/* ================================
+   Section 9: Why We Work Like This
+   ================================ */
+.section--why {
+  background-color: var(--color-dark-gray);
+}
+
+/* ================================
+   Section 10: Call to Action
+   ================================ */
+.section--cta {
+  background-color: var(--color-primary-black);
+}
+
+.cta__button {
+  display: inline-block;
+  padding: var(--space-sm) var(--space-lg);
+  margin-top: var(--space-md);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  color: var(--color-white);
+  background-color: var(--color-muted-blue);
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+
+.cta__button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.cta__button:active {
+  transform: translateY(0);
+}
+
+/* ================================
+   Animation Classes (Scroll-triggered)
+   ================================ */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================================
+   Responsive Adjustments
+   ================================ */
+@media (max-width: 768px) {
+  .section__content {
+    text-align: left;
+  }
+
+  .section--prelude .section__content,
+  .section--hero .section__content,
+  .section--no-reason .section__content,
+  .section--cta .section__content {
+    text-align: center;
+  }
+
+  .work-list {
+    max-width: 100%;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
