@@ -164,43 +164,45 @@
             updateTextFillWave(wordMatters, easeOutCubic(mattersFillProgress) * 100, scrollProgress);
 
             // ========================================
-            // PHASE 4: White box shrinks + INVISIBLE WORKS appears (65% - 100%)
+            // PHASE 4: Content shrinks + INVISIBLE WORKS appears (65% - 100%)
             // ========================================
             const phase4Start = 0.65;
             const phase4Progress = Math.max(0, Math.min(1, (scrollProgress - phase4Start) / (1 - phase4Start)));
             const easedPhase4 = easeOutCubic(phase4Progress);
 
-            const whiteBox = prelude.querySelector('.prelude__white-box');
+            // Sub-phase: shrink content (0-50%), then fade to black (30-70%), then reveal text (50-100%)
 
-            // First: show black background
-            if (phase4Progress > 0) {
-                overlay.style.opacity = 1;
-            } else {
-                overlay.style.opacity = 0;
-            }
-
-            // White box shrinks from all sides toward center
-            // Phase 4a (0-60%): White box shrinks, content fades
-            // Phase 4b (30-100%): INVISIBLE WORKS fades in
-
-            const shrinkProgress = Math.min(1, phase4Progress / 0.7);
+            // 1. Shrink content toward center
+            const shrinkProgress = Math.min(1, phase4Progress / 0.5);
             const easedShrink = easeOutCubic(shrinkProgress);
+            const scale = 1 - (easedShrink * 0.8); // Shrink to 20%
 
-            // Shrink white box: 100% -> 0%
-            const boxWidth = 100 - (easedShrink * 100);
-            const boxHeight = 100 - (easedShrink * 100);
-            whiteBox.style.width = `${boxWidth}%`;
-            whiteBox.style.height = `${boxHeight}%`;
-
-            // Hide content with white box
-            if (phase4Progress > 0) {
-                content.style.opacity = 0;
+            if (phase4Progress > 0 && phase4Progress < 0.7) {
+                const contentWidth = content.scrollWidth * scale;
+                const centerOffset = (vw - contentWidth) / 2;
+                const finalX = panX + (centerOffset - (vw * 0.03) - panX) * easedShrink;
+                content.style.transform = `translateX(${finalX}px) scale(${scale})`;
+                content.style.transformOrigin = 'left center';
             }
 
-            // INVISIBLE WORKS appears as white box shrinks
-            const revealStart = 0.2;
-            const revealProgress = Math.max(0, Math.min(1, (phase4Progress - revealStart) / (1 - revealStart)));
-            reveal.style.opacity = revealProgress;
+            // 2. Fade to black background
+            const fadeStart = 0.3;
+            const fadeEnd = 0.7;
+            const fadeProgress = Math.max(0, Math.min(1, (phase4Progress - fadeStart) / (fadeEnd - fadeStart)));
+            overlay.style.opacity = fadeProgress;
+
+            // 3. Fade out content
+            if (phase4Progress > 0.4) {
+                content.style.opacity = 1 - ((phase4Progress - 0.4) / 0.3);
+            }
+
+            // 4. Reveal INVISIBLE WORKS - SLOW cinematic reveal
+            const revealStart = 0.6;
+            const revealEnd = 1.0;
+            const revealProgress = Math.max(0, Math.min(1, (phase4Progress - revealStart) / (revealEnd - revealStart)));
+            // Use very slow easing for cinematic effect
+            const cinematicReveal = revealProgress * revealProgress; // Quadratic easing - starts slow
+            reveal.style.opacity = cinematicReveal;
         }
 
         function easeOutQuad(t) {

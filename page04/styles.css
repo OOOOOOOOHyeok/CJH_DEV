@@ -97,8 +97,8 @@ body {
 
 /* Wrapper creates scroll height for sticky */
 .prelude-wrapper {
-  height: 1300vh;
-  /* 13x viewport for very slow fill */
+  height: 1800vh;
+  /* 18x viewport - INVISIBLE WORKS stays longer */
   position: relative;
 }
 
@@ -209,19 +209,9 @@ body {
   z-index: 10;
 }
 
-/* White shrinking box */
+/* White shrinking box - currently not used */
 .prelude__white-box {
-  position: absolute;
-  background-color: var(--color-white);
-  pointer-events: none;
-  will-change: transform, width, height;
-  z-index: 15;
-  /* Starts full screen, JS will shrink it */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
+  display: none;
 }
 
 /* Invisible works reveal text */
@@ -234,16 +224,18 @@ body {
   opacity: 0;
   pointer-events: none;
   will-change: opacity;
-  z-index: 12;
+  z-index: 20;
 }
 
 .prelude__reveal-text {
-  font-size: clamp(3rem, 15vw, 12rem);
-  font-weight: 800;
+  font-size: 8.5vw;
+  font-weight: 900;
   color: var(--color-white);
-  letter-spacing: -0.03em;
+  letter-spacing: 0.02em;
   text-align: center;
-  line-height: 1;
+  white-space: nowrap;
+  transform: scaleY(5.5);
+  text-transform: uppercase;
 }
 
 /* Scroll hint */
