@@ -4,87 +4,273 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Products | 음식 · 술 · 프로틴</title>
-  <meta name="description" content="최고급 음식, 프리미엄 술, 고품질 프로틴을 한눈에 만나보세요.">
+  <title>APEX | 프리미엄 라이프스타일</title>
+  <meta name="description" content="최고급 음식, 프리미엄 술, 고품질 프로틴을 제공하는 APEX입니다.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- 물결 효과 배경 Canvas -->
-  <canvas id="ripple-canvas"></canvas>
 
-  <!-- 메인 컨테이너 -->
-  <main class="product-container">
+  <!-- ===== 네비게이션 ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-text">APEX</span>
+      </a>
+      <ul class="nav-menu">
+        <li><a href="#about" class="nav-link">소개</a></li>
+        <li><a href="#products" class="nav-link">상품</a></li>
+        <li><a href="#contact" class="nav-link">견적문의</a></li>
+      </ul>
+      <button class="nav-toggle" id="nav-toggle" aria-label="메뉴 열기">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
 
-    <!-- 음식 섹션 -->
-    <section class="product-section food-section" data-category="food">
-      <div class="section-content">
-        <h2 class="section-title">FOOD</h2>
-        <p class="section-subtitle">음식</p>
+  <!-- ===== Hero 섹션 ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <p class="hero-tagline">Premium Lifestyle Brand</p>
+      <h1 class="hero-title">
+        삶의 품격을<br>
+        <span class="highlight">높이다</span>
+      </h1>
+      <p class="hero-desc">
+        엄선된 식품, 프리미엄 주류, 최고급 프로틴까지<br>
+        당신의 라이프스타일을 완성합니다
+      </p>
+      <a href="#products" class="hero-cta">상품 보기</a>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
 
-        <div class="glass-box">
-          <div class="product-carousel">
-            <img src="images/food_front.png" alt="Premium Food Front" class="carousel-img">
-            <img src="images/food_side.png" alt="Premium Food Side" class="carousel-img">
-            <img src="images/food_back.png" alt="Premium Food Back" class="carousel-img">
-            <img src="images/food_side.png" alt="Premium Food Side" class="carousel-img" style="transform: scaleX(-1);">
+  <!-- ===== 소개 섹션 ===== -->
+  <section class="about" id="about">
+    <div class="section-container">
+      <div class="about-grid">
+        <div class="about-content">
+          <p class="section-label">About Us</p>
+          <h2 class="section-title">최고만을 선별하는<br>프리미엄 큐레이터</h2>
+          <p class="about-text">
+            APEX는 단순한 판매를 넘어, 삶의 질을 높이는 최상의 제품만을 엄선합니다.
+            10년간의 노하우로 국내외 프리미엄 브랜드와 직접 협력하여,
+            진정한 가치를 아는 고객님께 최상의 경험을 제공합니다.
+          </p>
+          <div class="about-stats">
+            <div class="stat-item">
+              <span class="stat-number">500+</span>
+              <span class="stat-label">프리미엄 제품</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">10K+</span>
+              <span class="stat-label">만족 고객</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">98%</span>
+              <span class="stat-label">재구매율</span>
+            </div>
           </div>
-          <div class="product-shadow"></div>
+        </div>
+        <div class="about-visual">
+          <div class="about-image-wrapper">
+            <div class="about-image" id="about-image"></div>
+            <div class="floating-badge">
+              <span class="badge-year">Since</span>
+              <span class="badge-number">2015</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 상품 섹션 ===== -->
+  <section class="products" id="products">
+    <div class="section-container">
+      <p class="section-label center">Our Products</p>
+      <h2 class="section-title center">프리미엄 컬렉션</h2>
+    </div>
+
+    <div class="product-showcase">
+      <!-- 음식 섹션 -->
+      <div class="product-card food-card" data-category="food">
+        <div class="product-card-content">
+          <span class="product-category">FOOD</span>
+          <h3 class="product-name">프리미엄 건강식</h3>
+          <p class="product-subtitle">음식</p>
+
+          <div class="product-display">
+            <div class="product-carousel">
+              <img src="images/food_front.png" alt="Premium Food Front" class="carousel-img">
+              <img src="images/food_side.png" alt="Premium Food Side" class="carousel-img">
+              <img src="images/food_back.png" alt="Premium Food Back" class="carousel-img">
+              <img src="images/food_side.png" alt="Premium Food Side" class="carousel-img mirror">
+            </div>
+          </div>
+
+          <p class="product-desc">신선한 재료로 만든 프리미엄 도시락</p>
+          <a href="#contact" class="product-cta">견적 문의</a>
+        </div>
+      </div>
+
+      <!-- 술 섹션 -->
+      <div class="product-card drink-card" data-category="drink">
+        <div class="product-card-content">
+          <span class="product-category">DRINK</span>
+          <h3 class="product-name">빈티지 컬렉션</h3>
+          <p class="product-subtitle">술</p>
+
+          <div class="product-display">
+            <div class="product-carousel">
+              <img src="images/drink_front.png" alt="Premium Drink Front" class="carousel-img">
+              <img src="images/drink_side.png" alt="Premium Drink Side" class="carousel-img">
+              <img src="images/drink_back.png" alt="Premium Drink Back" class="carousel-img">
+              <img src="images/drink_side.png" alt="Premium Drink Side" class="carousel-img mirror">
+            </div>
+          </div>
+
+          <p class="product-desc">엄선된 빈티지 와인과 프리미엄 양주</p>
+          <a href="#contact" class="product-cta">견적 문의</a>
+        </div>
+      </div>
+
+      <!-- 프로틴 섹션 -->
+      <div class="product-card protein-card" data-category="protein">
+        <div class="product-card-content">
+          <span class="product-category">PROTEIN</span>
+          <h3 class="product-name">고품질 프로틴</h3>
+          <p class="product-subtitle">프로틴</p>
+
+          <div class="product-display">
+            <div class="product-carousel">
+              <img src="images/protein_front.png" alt="Premium Protein Front" class="carousel-img">
+              <img src="images/protein_side.png" alt="Premium Protein Side" class="carousel-img">
+              <img src="images/protein_back.png" alt="Premium Protein Back" class="carousel-img">
+              <img src="images/protein_side.png" alt="Premium Protein Side" class="carousel-img mirror">
+            </div>
+          </div>
+
+          <p class="product-desc">순도 높은 고품질 프로틴 파우더</p>
+          <a href="#contact" class="product-cta">견적 문의</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 견적문의 섹션 ===== -->
+  <section class="contact" id="contact">
+    <div class="section-container">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p class="section-label">Contact Us</p>
+          <h2 class="section-title">견적 문의</h2>
+          <p class="contact-desc">
+            프리미엄 제품에 대한 대량 구매 또는 기업 납품 관련 문의를 남겨주세요.
+            24시간 내에 담당자가 연락드립니다.
+          </p>
+
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="contact-icon">📧</div>
+              <div>
+                <span class="contact-label">이메일</span>
+                <span class="contact-value">contact@apex-premium.kr</span>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📞</div>
+              <div>
+                <span class="contact-label">전화</span>
+                <span class="contact-value">02-1234-5678</span>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div>
+                <span class="contact-label">주소</span>
+                <span class="contact-value">서울시 강남구 테헤란로 123</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <p class="section-desc">신선한 재료로 만든<br>프리미엄 건강식</p>
-      </div>
-      <div class="section-overlay"></div>
-    </section>
-
-    <!-- 술 섹션 -->
-    <section class="product-section drink-section" data-category="drink">
-      <div class="section-content">
-        <h2 class="section-title">DRINK</h2>
-        <p class="section-subtitle">술</p>
-
-        <div class="glass-box">
-          <div class="product-carousel">
-            <img src="images/drink_front.png" alt="Premium Drink Front" class="carousel-img">
-            <img src="images/drink_side.png" alt="Premium Drink Side" class="carousel-img">
-            <img src="images/drink_back.png" alt="Premium Drink Back" class="carousel-img">
-            <img src="images/drink_side.png" alt="Premium Drink Side" class="carousel-img"
-              style="transform: scaleX(-1);">
-          </div>
-          <div class="product-shadow"></div>
+        <div class="contact-form-wrapper">
+          <form class="contact-form" id="contact-form">
+            <div class="form-group">
+              <label for="name">이름 / 회사명</label>
+              <input type="text" id="name" name="name" required placeholder="홍길동 / (주)회사명">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" id="email" name="email" required placeholder="example@email.com">
+              </div>
+              <div class="form-group">
+                <label for="phone">연락처</label>
+                <input type="tel" id="phone" name="phone" required placeholder="010-1234-5678">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="product">관심 상품</label>
+              <select id="product" name="product" required>
+                <option value="" disabled selected>상품을 선택해주세요</option>
+                <option value="food">프리미엄 건강식 (FOOD)</option>
+                <option value="drink">빈티지 컬렉션 (DRINK)</option>
+                <option value="protein">고품질 프로틴 (PROTEIN)</option>
+                <option value="all">전체 상품</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">문의 내용</label>
+              <textarea id="message" name="message" rows="4" required placeholder="문의 내용을 자세히 작성해주세요"></textarea>
+            </div>
+            <button type="submit" class="submit-btn">
+              <span>견적 요청하기</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </form>
         </div>
-
-        <p class="section-desc">엄선된 빈티지 와인과<br>프리미엄 양주 컬렉션</p>
       </div>
-      <div class="section-overlay"></div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 프로틴 섹션 -->
-    <section class="product-section protein-section" data-category="protein">
-      <div class="section-content">
-        <h2 class="section-title">PROTEIN</h2>
-        <p class="section-subtitle">프로틴</p>
-
-        <div class="glass-box">
-          <div class="product-carousel">
-            <img src="images/protein_front.png" alt="Premium Protein Front" class="carousel-img">
-            <img src="images/protein_side.png" alt="Premium Protein Side" class="carousel-img">
-            <img src="images/protein_back.png" alt="Premium Protein Back" class="carousel-img">
-            <img src="images/protein_side.png" alt="Premium Protein Side" class="carousel-img"
-              style="transform: scaleX(-1);">
-          </div>
-          <div class="product-shadow"></div>
+  <!-- ===== 푸터 ===== -->
+  <footer class="footer">
+    <div class="section-container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="footer-logo">APEX</span>
+          <p class="footer-tagline">Premium Lifestyle Brand</p>
         </div>
-
-        <p class="section-desc">순도 높은 고품질<br>프로틴 파우더</p>
+        <div class="footer-links">
+          <a href="#about">소개</a>
+          <a href="#products">상품</a>
+          <a href="#contact">견적문의</a>
+        </div>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">📷</a>
+          <a href="#" aria-label="Facebook">📘</a>
+          <a href="#" aria-label="YouTube">🎬</a>
+        </div>
       </div>
-      <div class="section-overlay"></div>
-    </section>
-
-  </main>
+      <div class="footer-bottom">
+        <p>&copy; 2025 APEX. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>

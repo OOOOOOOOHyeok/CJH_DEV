@@ -1,189 +1,193 @@
-/**
- * Product Page Interactive Effects
- * - Mouse-responsive water ripple background
- * - Hover interactions
- */
+// ===================================
+// Navigation Scroll Effect
+// ===================================
+const navbar = document.getElementById('navbar');
+const navToggle = document.getElementById('nav-toggle');
+const navMenu = document.querySelector('.nav-menu');
+const navLinks = document.querySelectorAll('.nav-link');
 
-class RippleEffect {
-    constructor(canvas) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
-        this.ripples = [];
-        this.mouseX = 0;
-        this.mouseY = 0;
-        this.lastRippleTime = 0;
-        this.rippleInterval = 100; // ms between ripples
-
-        this.resize();
-        this.bindEvents();
-        this.animate();
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
     }
+});
 
-    resize() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
-    }
+// Mobile menu toggle
+navToggle?.addEventListener('click', () => {
+    navMenu.classList.toggle('active');
+    navToggle.classList.toggle('active');
+});
 
-    bindEvents() {
-        window.addEventListener('resize', () => this.resize());
-
-        document.addEventListener('mousemove', (e) => {
-            this.mouseX = e.clientX;
-            this.mouseY = e.clientY;
-
-            const now = Date.now();
-            if (now - this.lastRippleTime > this.rippleInterval) {
-                this.addRipple(e.clientX, e.clientY);
-                this.lastRippleTime = now;
-            }
-        });
-
-        // Touch support
-        document.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            this.mouseX = touch.clientX;
-            this.mouseY = touch.clientY;
-
-            const now = Date.now();
-            if (now - this.lastRippleTime > this.rippleInterval) {
-                this.addRipple(touch.clientX, touch.clientY);
-                this.lastRippleTime = now;
-            }
-        });
-    }
-
-    addRipple(x, y) {
-        // Determine color based on which section the mouse is in
-        const section = this.getSectionAtPosition(x);
-        let color;
-
-        switch (section) {
-            case 'food':
-                color = { r: 255, g: 107, b: 53 };
-                break;
-            case 'drink':
-                color = { r: 139, g: 92, b: 246 };
-                break;
-            case 'protein':
-                color = { r: 16, g: 185, b: 129 };
-                break;
-            default:
-                color = { r: 100, g: 100, b: 255 };
-        }
-
-        this.ripples.push({
-            x: x,
-            y: y,
-            radius: 0,
-            maxRadius: 250,
-            opacity: 0.5,
-            color: color,
-            speed: 3
-        });
-    }
-
-    getSectionAtPosition(x) {
-        const sectionWidth = window.innerWidth / 3;
-        if (x < sectionWidth) return 'food';
-        if (x < sectionWidth * 2) return 'drink';
-        return 'protein';
-    }
-
-    animate() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Update and draw ripples
-        for (let i = this.ripples.length - 1; i >= 0; i--) {
-            const ripple = this.ripples[i];
-
-            ripple.radius += ripple.speed;
-            ripple.opacity -= 0.008;
-
-            if (ripple.opacity <= 0) {
-                this.ripples.splice(i, 1);
-                continue;
-            }
-
-            // Draw multiple concentric rings for water effect
-            for (let j = 0; j < 3; j++) {
-                const ringRadius = ripple.radius - (j * 20);
-                if (ringRadius > 0) {
-                    this.ctx.beginPath();
-                    this.ctx.arc(ripple.x, ripple.y, ringRadius, 0, Math.PI * 2);
-                    this.ctx.strokeStyle = `rgba(${ripple.color.r}, ${ripple.color.g}, ${ripple.color.b}, ${ripple.opacity * (1 - j * 0.3)})`;
-                    this.ctx.lineWidth = 2 - (j * 0.5);
-                    this.ctx.stroke();
-                }
-            }
-        }
-
-        // Draw subtle ambient ripples
-        this.drawAmbientRipples();
-
-        requestAnimationFrame(() => this.animate());
-    }
-
-    drawAmbientRipples() {
-        const time = Date.now() * 0.001;
-        const centerX = this.canvas.width / 2;
-        const centerY = this.canvas.height / 2;
-
-        // Subtle wave effect across the screen
-        for (let i = 0; i < 5; i++) {
-            const radius = (time * 50 + i * 100) % 500;
-            const opacity = Math.max(0, 0.05 - (radius / 500) * 0.05);
-
-            this.ctx.beginPath();
-            this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-            this.ctx.strokeStyle = `rgba(100, 100, 200, ${opacity})`;
-            this.ctx.lineWidth = 1;
-            this.ctx.stroke();
-        }
-    }
-}
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('ripple-canvas');
-    if (canvas) {
-        new RippleEffect(canvas);
-    }
-
-    // Add smooth section interactions
-    const sections = document.querySelectorAll('.product-section');
-
-    sections.forEach(section => {
-        // Add click handler for navigation (optional)
-        section.addEventListener('click', () => {
-            const category = section.dataset.category;
-            console.log(`Clicked on ${category} section`);
-
-            // Add click ripple effect
-            section.style.transform = 'scale(0.98)';
-            setTimeout(() => {
-                section.style.transform = '';
-            }, 150);
-        });
-
-        // Pause rotation on hover for better viewing
-        section.addEventListener('mouseenter', () => {
-            const spinner = section.querySelector('.product-spinner');
-            if (spinner) {
-                // Don't pause, just slow down (handled in CSS)
-            }
-        });
-    });
-
-    // Add parallax effect to 3D spinners based on mouse position
-    document.addEventListener('mousemove', (e) => {
-        const mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
-        const mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
-
-        sections.forEach(section => {
-            const container = section.querySelector('.product-3d-container');
-            if (container) {
-                container.style.transform = `rotateX(${-mouseY}deg) rotateY(${mouseX}deg)`;
-            }
-        });
+// Close mobile menu on link click
+navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        navMenu.classList.remove('active');
+        navToggle?.classList.remove('active');
     });
 });
+
+// ===================================
+// Smooth Scroll for Navigation
+// ===================================
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            const offsetTop = target.offsetTop - 80;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
+// ===================================
+// Scroll Reveal Animation
+// ===================================
+const revealElements = document.querySelectorAll('.section-label, .section-title, .about-text, .about-stats, .product-card, .contact-info, .contact-form-wrapper');
+
+const revealOnScroll = () => {
+    revealElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+
+        if (elementTop < windowHeight * 0.85) {
+            element.classList.add('revealed');
+        }
+    });
+};
+
+// Add reveal styles dynamically
+const style = document.createElement('style');
+style.textContent = `
+  .section-label, .section-title, .about-text, .about-stats, 
+  .product-card, .contact-info, .contact-form-wrapper {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  
+  .section-label.revealed, .section-title.revealed, .about-text.revealed, 
+  .about-stats.revealed, .product-card.revealed, .contact-info.revealed, 
+  .contact-form-wrapper.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .product-card:nth-child(2) { transition-delay: 0.1s; }
+  .product-card:nth-child(3) { transition-delay: 0.2s; }
+`;
+document.head.appendChild(style);
+
+window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('load', revealOnScroll);
+
+// ===================================
+// Contact Form Handling
+// ===================================
+const contactForm = document.getElementById('contact-form');
+
+contactForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+
+    // Show success message
+    const btn = this.querySelector('.submit-btn');
+    const originalText = btn.innerHTML;
+
+    btn.innerHTML = '<span>✓ 견적 요청 완료!</span>';
+    btn.style.background = '#0d9668';
+    btn.disabled = true;
+
+    // Reset form after 3 seconds
+    setTimeout(() => {
+        this.reset();
+        btn.innerHTML = originalText;
+        btn.style.background = '';
+        btn.disabled = false;
+    }, 3000);
+
+    console.log('Form submitted:', data);
+});
+
+// ===================================
+// Product Card Hover Effects
+// ===================================
+const productCards = document.querySelectorAll('.product-card');
+
+productCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        const carousel = card.querySelector('.product-carousel');
+        if (carousel) {
+            carousel.style.animationDuration = '3s';
+        }
+    });
+
+    card.addEventListener('mouseleave', () => {
+        const carousel = card.querySelector('.product-carousel');
+        if (carousel) {
+            carousel.style.animationDuration = '6s';
+        }
+    });
+});
+
+// ===================================
+// Parallax Effect for Hero
+// ===================================
+const hero = document.querySelector('.hero');
+
+window.addEventListener('scroll', () => {
+    if (hero) {
+        const scrolled = window.scrollY;
+        const heroContent = hero.querySelector('.hero-content');
+        if (heroContent && scrolled < window.innerHeight) {
+            heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+            heroContent.style.opacity = 1 - (scrolled / window.innerHeight) * 0.8;
+        }
+    }
+});
+
+// ===================================
+// Active Navigation Link
+// ===================================
+const sections = document.querySelectorAll('section[id]');
+
+const highlightNavLink = () => {
+    const scrollY = window.scrollY;
+
+    sections.forEach(section => {
+        const sectionHeight = section.offsetHeight;
+        const sectionTop = section.offsetTop - 100;
+        const sectionId = section.getAttribute('id');
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${sectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    });
+};
+
+// Add active link style
+const activeStyle = document.createElement('style');
+activeStyle.textContent = `
+  .nav-link.active {
+    color: var(--color-gold) !important;
+  }
+  .nav-link.active::after {
+    width: 100% !important;
+  }
+`;
+document.head.appendChild(activeStyle);
+
+window.addEventListener('scroll', highlightNavLink);
