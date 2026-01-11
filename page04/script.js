@@ -224,7 +224,7 @@
     }
 
     function initScrollAnimations() {
-        const sections = document.querySelectorAll('.section:not(.section--prelude)');
+        const sections = document.querySelectorAll('.section:not(.section--prelude):not(.section--work)');
 
         sections.forEach(section => {
             const content = section.querySelector('.section__content');

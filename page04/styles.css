@@ -257,25 +257,94 @@ body {
 }
 
 /* ================================
-   Section 2: Hero
+   Section 2-4: Featured Work
    ================================ */
-.section--hero {
+.section--work {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
   background-color: var(--color-primary-black);
+  overflow: hidden;
 }
 
-.hero__title {
-  font-size: var(--font-size-3xl);
-  font-weight: 700;
+/* Image box - left side */
+.work__background {
+  position: absolute;
+  left: 5vw;
+  top: 20vh;
+  width: 55%;
+  height: 65%;
+  background-size: cover;
+  background-position: center;
+}
+
+.work__background--1 {
+  background-image: url('./images/understanding.png');
+}
+
+.work__background--2 {
+  background-image: url('./images/design.png');
+}
+
+.work__background--3 {
+  background-image: url('./images/website.png');
+}
+
+/* Title - top right, very large */
+.work__title {
+  position: absolute;
+  top: 8vh;
+  right: 5vw;
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  font-weight: 900;
   color: var(--color-white);
-  margin-bottom: var(--space-sm);
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-align: right;
 }
 
-.hero__subtitle {
-  font-size: var(--font-size-lg);
-  color: var(--color-muted-blue);
-  font-weight: 400;
+.work__content {
+  position: absolute;
+  bottom: 8vh;
+  left: 5vw;
+  z-index: 2;
+}
+
+.work__label {
+  font-size: 0.7rem;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  opacity: 0.6;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.work__label::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background-color: var(--color-white);
+  opacity: 0.4;
+}
+
+.work__meta {
+  position: absolute;
+  right: 5vw;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.work__category {
+  font-size: 0.65rem;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  opacity: 0.4;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 }
 
 /* ================================
